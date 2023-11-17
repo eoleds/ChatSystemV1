@@ -88,5 +88,11 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
+    public String getAddress() {
+        return IP;
+    }
+
 }
