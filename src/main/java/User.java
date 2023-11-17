@@ -71,7 +71,7 @@ public class User {
 
 
                 if (message.startsWith("New_User:")) {
-                    if (!ContactList.getContacts().contains(message.substring(9))) {
+                    if (!ContactList.getContacts().containsValue(message.substring(9))) {
                         ContactList.adduser(message.substring(9), senderAddress);
                     }
                     SendMessage(8888, receivePacket.getAddress());
