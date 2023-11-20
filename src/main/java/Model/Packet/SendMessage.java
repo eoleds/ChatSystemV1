@@ -1,3 +1,7 @@
+package Model.Packet;
+
+import Model.User.User;
+
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.io.IOException;

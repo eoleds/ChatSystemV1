@@ -1,3 +1,7 @@
+package Model.User;
+
+import Model.Packet.ContactDiscovery;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -5,7 +9,7 @@ public class User {
 
     String username;
     String IP;
-    ContactDiscovery ContactList = new ContactDiscovery();
+    //ContactDiscovery ContactList = new ContactDiscovery();
     private DatagramSocket socket;
 
     public User(String username, String IP) throws SocketException {
@@ -14,7 +18,20 @@ public class User {
         this.socket = new DatagramSocket();
     }
 
-    public void Connect()
+
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public DatagramSocket getSocket() {
+        return socket;
+    }
+   /* public void Connect()
     {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
@@ -27,22 +44,22 @@ public class User {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    private void SendMessage(int port, InetAddress IPadresse) throws IOException {
+  /*  private void SendMessage(int port, InetAddress IPadresse) throws IOException {
         int port1 = port;
         String message1 = "New_User_Response:" + username;
         byte[] sendData1 = message1.getBytes();
         DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, IPadresse, port1);
         socket.send(packet1);
     }
-
-    public void CloseSocket()
+*/
+    /*public void CloseSocket()
     {
         socket.close();
-    }
+    }*/
 
-    public void ReceiveMessages() throws IOException {
+/*    public void ReceiveMessages() throws IOException {
 
         int port = 8888; // Specify the port to listen on
 
@@ -74,5 +91,5 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

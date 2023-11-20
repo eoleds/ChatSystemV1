@@ -1,3 +1,5 @@
+package Model.Packet;
+
 import java.util.*;
 
 public class ContactDiscovery {
