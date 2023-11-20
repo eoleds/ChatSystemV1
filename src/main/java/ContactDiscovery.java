@@ -8,7 +8,12 @@ public class ContactDiscovery {
         contacts.put(username, IP);
     } //Ajoute un nouvel utilisateur à la map
 
-    public HashMap<String, String> getContacts() {
-        return contacts;
-    } //Renvoie la HashMap avec tous les contacts
+    public ArrayList<String> getContacts() {
+        ArrayList<String> listenames = new ArrayList<>();
+        for (Map.Entry<String, String> entry : contacts.entrySet()) {
+            String username = entry.getKey();
+            listenames.add(username);
+        }
+        return listenames;
+    } //Renvoie tous les contacts comme une list
 }

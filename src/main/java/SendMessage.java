@@ -10,7 +10,7 @@ public class SendMessage {
 
     public SendMessage(User user) throws IOException {
         this.user = user;
-        socket = new Socket(user.getAddress(), 8888);
+        socket = new Socket();
         printWriter = new PrintWriter(socket.getOutputStream(), true);
     }
 

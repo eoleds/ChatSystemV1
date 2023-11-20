@@ -1,22 +1,18 @@
 import java.io.IOException;
 import java.net.*;
 
-
 public class User {
-
 
     String username;
     String IP;
     ContactDiscovery ContactList = new ContactDiscovery();
     private DatagramSocket socket;
 
-
     public User(String username, String IP) throws SocketException {
         this.username = username;
         this.IP = IP;
         this.socket = new DatagramSocket();
     }
-
 
     public void Connect()
     {
@@ -33,7 +29,6 @@ public class User {
         }
     }
 
-
     private void SendMessage(int port, InetAddress IPadresse) throws IOException {
         int port1 = port;
         String message1 = "New_User_Response:" + username;
@@ -42,44 +37,35 @@ public class User {
         socket.send(packet1);
     }
 
-
     public void CloseSocket()
     {
         socket.close();
     }
 
-
     public void ReceiveMessages() throws IOException {
 
-
         int port = 8888; // Specify the port to listen on
-
 
         try {
             DatagramSocket socket = new DatagramSocket(port);
             DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
-
 
             while (true) {
                 socket.receive(receivePacket);
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 String senderAddress = receivePacket.getAddress().getHostAddress();
 
-
                 int senderPort = receivePacket.getPort();
                 System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
-
                 if (message.startsWith("New_User:")) {
-                    if (!ContactList.getContacts().containsValue(message.substring(9))) {
+                    if (!ContactList.getContacts().contains(message.substring(9))) {
                         ContactList.adduser(message.substring(9), senderAddress);
                     }
                     SendMessage(8888, receivePacket.getAddress());
 
-
                 }
                 else if(message.startsWith("New_User_Response:")) {
-
 
                     ContactList.adduser(message.substring(18), senderAddress);
                 }
@@ -88,11 +74,5 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-    public String getAddress() {
-        return IP;
-    }
-
 }
