@@ -3,7 +3,7 @@ package Model.Packet;
 import java.util.*;
 
 public class ContactDiscovery {
-
+//
     private HashMap<String, String> contacts = new HashMap<>(); //La HashMap contient la liste de contacts
 
     public void adduser(String username, String IP) {

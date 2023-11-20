@@ -31,6 +31,7 @@ public class Chat {
             // Simulation de la connexion de l'utilisateur 1
             uc.Connect(me);
             uc.Connect(other);
+            //
 
 
             /*uc.stopListening();

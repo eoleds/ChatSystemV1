@@ -23,6 +23,7 @@ public class ReceiveMessage {
         clientSocket = serverSocket.accept();
         bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
+    //
 
     public String receiveMessage() throws IOException {
         return bufferedReader.readLine();
