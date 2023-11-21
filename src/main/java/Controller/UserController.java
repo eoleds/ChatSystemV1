@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.Packet.ContactDiscovery;
-import Model.Packet.SendMessage;
 import Model.User.User;
 
 import java.io.IOException;
@@ -23,13 +22,12 @@ public class UserController implements Controller {
         return currentUser;
     }
 
-    private boolean listening = true; // Variable de contrôle
-
-    // ...
-
     public void stopListening() {
         listening = false;
     }
+
+    private boolean listening = true;
+
     private UserController() {
     }
 
@@ -48,6 +46,10 @@ public class UserController implements Controller {
     public void myLogin(String name) {
         try {
             this.currentUser = new User(name, InetAddress.getLocalHost().toString());
+            if (!ContactList.getUserList().contains(this.currentUser))
+                ContactList.addUser(this.currentUser);
+
+            System.out.println(ContactList.getUsernames());
         } catch (SocketException e) {
             throw new RuntimeException(e);
         } catch (UnknownHostException e) {
@@ -56,49 +58,19 @@ public class UserController implements Controller {
     }
 
     public void UserLogin(User user) {
-        System.out.println("[UserController]: New connexion detected " + user);
 
-        if (!ContactList.getUserList().contains(user))
-            ContactList.addUser(user);
-    }
-    public void Connect(User user)
-    {
-        try {
-            InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
-            String message = "New_User:" + user.getUsername();
-            byte[] sendData = message.getBytes();
-            DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
-            user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!ContactList.getUsernames().contains(user.getUsername())) {
+            System.out.println("[UserController]: New connexion detected " + user);
+
+            if (!ContactList.getUserList().contains(user))
+                ContactList.addUser(user);
+
+            System.out.println(ContactList.getUsernames());
+        }else{
+            System.out.println("Username deja utilise");
         }
     }
 
-    public void UserLogout(User user)
-    {
-        try{
-        InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-        int port = 8888;
-        String message = "Logout" + user.getUuid();
-        byte[] sendData = message.getBytes();
-        DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
-        user.getSocket().send(packet);
-        System.out.println("Broadcast sent successfully");
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-
-    }
-
-    private void SendMessage(int port, InetAddress IPadresse) throws IOException {
-        int port1 = port;
-        String message1 = "New_User_Response:" + this.currentUser.getUsername();
-        byte[] sendData1 = message1.getBytes();
-        DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, IPadresse, port1);
-        this.currentUser.getSocket().send(packet1);
-    }
 
     public void CloseSocket()
     {
@@ -112,9 +84,10 @@ public class UserController implements Controller {
         }
         return null;
     }
+
     public void ReceiveMessages() throws IOException {
 
-        int port = 1234; // Specify the port to listen on
+        int port = 8888; // Specify the port to listen on
 
         try {
             DatagramSocket socket = new DatagramSocket(port);
@@ -124,7 +97,6 @@ public class UserController implements Controller {
                 socket.receive(receivePacket);
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 String senderAddress = receivePacket.getAddress().getHostAddress();
-
                 int senderPort = receivePacket.getPort();
                 System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
@@ -133,18 +105,20 @@ public class UserController implements Controller {
                         User user = new User(message.substring(9), senderAddress);
                         ContactList.addUser(user);
                     }
-                    SendMessage(8888, receivePacket.getAddress());
+                    System.out.println(ContactList.getUsernames());
+                    //SendMessage(8888, receivePacket.getAddress(),getCurrentUser());
 
                 }//
                 else if(message.startsWith("New_User_Response:")) {
                     User user= new User(message.substring(18), senderAddress);
                     ContactList.addUser(user);
+                    System.out.println(ContactList.getUsernames());
                 }
                 else if (message.startsWith("Logout")) {
                     String uuidString = message.substring(6);
                     UUID uuid = UUID.fromString(uuidString);
                     ContactList.getUserList().remove(getUserByUuid(uuid));
-                    System.out.println(ContactList.getUserList());
+                    System.out.println(ContactList.getUsernames());
                 }
             }//
         } catch (IOException e) {
@@ -152,6 +126,5 @@ public class UserController implements Controller {
         }
     }
 
-    //testcommit
 
 }

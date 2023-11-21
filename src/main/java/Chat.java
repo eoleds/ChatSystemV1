@@ -1,3 +1,4 @@
+import Controller.NetworkController;
 import Controller.UserController;
 import Model.User.User;
 
@@ -13,10 +14,14 @@ public class Chat {
 
 
         UserController uc= UserController.getInstance();
+        NetworkController nc = NetworkController.getInstance();
         uc.myLogin("Sacha");
         User me = uc.getCurrentUser();
-        User other = new User("Eole","192.168.123.132");
-        uc.UserLogin(other);
+        User eole = new User("Eole","192.168.123.132");
+        User eole2 =  new User("Eole","192.168.123.133");
+        uc.UserLogin(eole);
+        uc.UserLogin(eole2);
+        uc.UserLogin(me);
         try {
 
 
@@ -29,23 +34,12 @@ public class Chat {
             }).start();
 
             // Simulation de la connexion de l'utilisateur 1
-            uc.Connect(me);
-            uc.Connect(other);
+            nc.Connect(me);
+            nc.Connect(eole);
+            nc.Connect(eole2);
             //
+            nc.UserLogout(eole);
 
-
-            /*uc.stopListening();
-
-        new Thread(() -> {
-            try {
-                uc.ReceiveMessages();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-
-
-        uc.UserLogout(other);*/
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -53,3 +47,7 @@ public class Chat {
     }
 
 }
+
+
+//network controller : droadcast, check unicité username sur le reseau
+//
