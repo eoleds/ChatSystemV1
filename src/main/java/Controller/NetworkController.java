@@ -22,7 +22,7 @@ public class NetworkController implements Controller{
 
 
 
-    public void UserLogout(User user)
+    /*public void UserLogout(User user)
     {
         try{
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
@@ -36,7 +36,7 @@ public class NetworkController implements Controller{
             throw new RuntimeException(e);
         }
 
-    }
+    }*/
 
     public void Connect(User user)
     {

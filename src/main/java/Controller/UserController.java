@@ -86,6 +86,14 @@ public class UserController implements Controller {
         }
     }
 
+    // Dans UserController
+    public void UserLogout(User user) {
+        // Mettez à jour localement la liste des utilisateurs en supprimant l'utilisateur déconnecté
+        userList.remove(user);
+        System.out.println("Local logout: " + user.getUsername());
+    }
+
+
 
     public void CloseSocket()
     {
@@ -132,10 +140,28 @@ public class UserController implements Controller {
                     addUser(user);
                     System.out.println(getUsernames());
                 }
-                else if (message.startsWith("Logout:")) {
-                   // String uuidString = message.substring(7);
+                /*else if (message.startsWith("Logout:")) {
+                    String usernameToLogout = message.substring(7);
+
+                    Iterator<User> iterator = getUserList().iterator();
+                    while (iterator.hasNext()) {
+                        User user = iterator.next();
+                        System.out.println("Current user in the list: " + user.getUsername());
+                        if (user.getUsername().equals(usernameToLogout)) {
+                            iterator.remove();
+                            System.out.println("Utilisateur retiré : " + usernameToLogout);
+                            break;  // Exit the loop once the user is removed
+                        }
+                    }
+
+                    System.out.println("User List after logout: " + getUsernames());
+                }*/
+
+
+
+                // String uuidString = message.substring(7);
                    // UUID uuid = UUID.fromString(uuidString);
-                    System.out.println("Message logout reçu");
+                    /*System.out.println("Message logout reçu");
                     String username = message.substring(7);
                     Iterator<User> iterator = userList.iterator();
                     while (iterator.hasNext()) {
@@ -147,12 +173,12 @@ public class UserController implements Controller {
                         }
                         else {
                             System.out.println("utilisateur "+username+" non trouvé");
-                        }
-                    }
+                        }*/
+
 
                     System.out.println(getUsernames());
                 }
-            }//
+            //
         } catch (IOException e) {
             e.printStackTrace();
         }

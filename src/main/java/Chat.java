@@ -20,9 +20,9 @@ public class Chat {
         User me=new User("Michel", InetAddress.getLocalHost().toString());
 
         User eole = new User("Eole","192.168.123.132");
-        User eole2 =  new User("Eole","192.168.123.133");
+        User eole2 =  new User("Eoli","192.168.123.133");
         uc.UserLogin(eole);
-       uc.UserLogin(eole2);
+        uc.UserLogin(eole2);
         uc.UserLogin(me);
 
         // Simulation de la connexion de l'utilisateur 1
@@ -32,8 +32,8 @@ public class Chat {
         System.out.println(uc.getUsernames());
         //
         System.out.println("test deco");
-        nc.UserLogout(eole);
-        nc.UserLogout(me);
+        uc.UserLogout(eole);
+        uc.UserLogout(me);
         System.out.println(uc.getUsernames());
         nc.Connect(me);
 

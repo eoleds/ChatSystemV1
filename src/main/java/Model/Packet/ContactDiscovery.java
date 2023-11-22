@@ -28,6 +28,8 @@ public class ContactDiscovery {
         userList.add(user);
     }
 
+    public void removeUser (User user) { userList.remove(user);}
+
     public List<User> getUserList() {
         return userList;
     }
