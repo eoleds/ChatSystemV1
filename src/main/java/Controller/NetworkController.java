@@ -27,11 +27,11 @@ public class NetworkController implements Controller{
         try{
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
             int port = 8888;
-            String message = "Logout" + user.getUuid().toString();
+            String message = "Logout:" + user.getUsername();
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
             user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully");
+            System.out.println("Broadcast sent successfully by "+user.getUsername()+" to logout");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +47,7 @@ public class NetworkController implements Controller{
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
             user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully");
+            System.out.println("Broadcast sent successfully by " +user.getUsername() );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

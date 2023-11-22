@@ -11,12 +11,26 @@ public class UserController implements Controller {
 
     private static final UserController instance = new UserController();
 
-    private List<User> userList;
+    //private List<User> userList;
 
     public List<User> getUserList() {
-        return userList;
+       return userList;
     }
 
+    private List<User> userList = new ArrayList<>();
+
+    public void addUser(User user) {
+        userList.add(user);
+    }
+
+
+    public List<String> getUsernames() {
+        List<String> usernames = new ArrayList<>();
+        for (User user : userList) {
+            usernames.add(user.getUsername());
+        }
+        return usernames;
+    }
     private User currentUser;
     public User getCurrentUser() {
         return currentUser;
@@ -42,15 +56,15 @@ public class UserController implements Controller {
         return instance;
     }
 
-    ContactDiscovery ContactList = new ContactDiscovery();
+    //ContactDiscovery ContactList = new ContactDiscovery();
 
-/*    public void myLogin(String name) {
+  public void myLogin(String name) {
         try {
             this.currentUser = new User(name, InetAddress.getLocalHost().toString());
-            if (!ContactList.getUserList().contains(this.currentUser))
-                ContactList.addUser(this.currentUser);
+            if (!getUserList().contains(this.currentUser))
+                addUser(this.currentUser);
 
-            System.out.println(ContactList.getUsernames());
+            System.out.println(getUsernames());
         } catch (SocketException e) {
             throw new RuntimeException(e);
         } catch (UnknownHostException e) {
@@ -60,17 +74,17 @@ public class UserController implements Controller {
 
     public void UserLogin(User user) {
 
-        if (!ContactList.getUsernames().contains(user.getUsername())) {
-            System.out.println("[UserController]: New connexion detected " + user);
+        if (!getUsernames().contains(user.getUsername())) {
+            System.out.println("[UserController]: New connexion detected " + user.getUsername());
 
-            if (!ContactList.getUserList().contains(user))
-                ContactList.addUser(user);
+            if (!getUserList().contains(user))
+                addUser(user);
 
-            System.out.println(ContactList.getUsernames());
+            System.out.println(getUsernames());
         }else{
             System.out.println("Username deja utilise");
         }
-    }*/
+    }
 
 
     public void CloseSocket()
@@ -79,7 +93,7 @@ public class UserController implements Controller {
     }
 
     public User getUserByUuid(UUID uuid) {
-        for (User user : ContactList.getUserList()) {
+        for (User user : getUserList()) {
             if (user.getUuid().equals(uuid))
                 return user;
         }
@@ -102,26 +116,41 @@ public class UserController implements Controller {
                 System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
                 if (message.startsWith("New_User:")) {
-                    if (!ContactList.getUsernames().contains(message.substring(9))) {
+                    if (!getUsernames().contains(message.substring(9))) {
                         User user = new User(message.substring(9), senderAddress);
-                        ContactList.addUser(user);
+                        addUser(user);
                     }else {
                         System.out.println("[apres New_User] : Username "+message.substring(9)+" deja utilise");
                     }
-                    System.out.println(ContactList.getUsernames());
-                    //SendMessage(8888, receivePacket.getAddress(),getCurrentUser());
+                    System.out.println(getUsernames());
+                    NetworkController nc =  NetworkController.getInstance();
+                    nc.SendMessage(8888, receivePacket.getAddress(),currentUser);
 
                 }//
                 else if(message.startsWith("New_User_Response:")) {
                     User user= new User(message.substring(18), senderAddress);
-                    ContactList.addUser(user);
-                    System.out.println(ContactList.getUsernames());
+                    addUser(user);
+                    System.out.println(getUsernames());
                 }
-                else if (message.startsWith("Logout")) {
-                    String uuidString = message.substring(6);
-                    UUID uuid = UUID.fromString(uuidString);
-                    ContactList.getUserList().remove(getUserByUuid(uuid));
-                    System.out.println(ContactList.getUsernames());
+                else if (message.startsWith("Logout:")) {
+                   // String uuidString = message.substring(7);
+                   // UUID uuid = UUID.fromString(uuidString);
+                    System.out.println("Message logout reçu");
+                    String username = message.substring(7);
+                    Iterator<User> iterator = userList.iterator();
+                    while (iterator.hasNext()) {
+                        User user = iterator.next();
+                        if (user.getUsername().equals(username)) {
+                            iterator.remove(); // Remove the user from the list
+                            System.out.println("User with username " + username + " has logged out.");
+                            break; // Exit the loop once the user is removed
+                        }
+                        else {
+                            System.out.println("utilisateur "+username+" non trouvé");
+                        }
+                    }
+
+                    System.out.println(getUsernames());
                 }
             }//
         } catch (IOException e) {
