@@ -19,25 +19,6 @@ public class NetworkController implements Controller{
         return instance;
     }
 
-
-
-
-    /*public void UserLogout(User user)
-    {
-        try{
-            InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
-            String message = "Logout:" + user.getUsername();
-            byte[] sendData = message.getBytes();
-            DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
-            user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully by "+user.getUsername()+" to logout");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }*/
-
     public void Connect(User user)
     {
         try {
@@ -47,7 +28,7 @@ public class NetworkController implements Controller{
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
             user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully by " +user.getUsername() );
+            System.out.println("Broadcast sent successfully by " +user.getUsername() + " " + user.getUuid() );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,3 +43,19 @@ public class NetworkController implements Controller{
 
 
 }
+
+ /*public void UserLogout(User user)
+    {
+        try{
+            InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
+            int port = 8888;
+            String message = "Logout:" + user.getUsername();
+            byte[] sendData = message.getBytes();
+            DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
+            user.getSocket().send(packet);
+            System.out.println("Broadcast sent successfully by "+user.getUsername()+" to logout");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/

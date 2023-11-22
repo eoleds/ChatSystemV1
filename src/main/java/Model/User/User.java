@@ -41,7 +41,9 @@ public class User {
     public DatagramSocket getSocket() {
         return socket;
     }
-   /* public void Connect()
+
+}
+/* public void Connect()
     {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
@@ -102,4 +104,3 @@ public class User {
             e.printStackTrace();
         }
     }*/
-}

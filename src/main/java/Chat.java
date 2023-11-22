@@ -34,7 +34,7 @@ public class Chat {
         System.out.println("test deco");
         uc.UserLogout(eole);
         uc.UserLogout(me);
-        System.out.println(uc.getUsernames());
+        //System.out.println(uc.getUsernames());
         nc.Connect(me);
 
 
@@ -57,6 +57,3 @@ public class Chat {
 
 }
 
-
-//network controller : broadcast, check unicité username sur le reseau
-//
