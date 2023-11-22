@@ -28,7 +28,7 @@ public class NetworkController implements Controller{
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
             user.getSocket().send(packet);
-            System.out.println("Broadcast sent successfully by " +user.getUsername() + " " + user.getUuid() );
+            System.out.println("Broadcast sent successfully by " +user.getUsername());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
