@@ -15,13 +15,15 @@ public class Chat {
 
         UserController uc= UserController.getInstance();
         NetworkController nc = NetworkController.getInstance();
-        uc.myLogin("Sacha");
+        //uc.myLogin("Sacha");
         User me = uc.getCurrentUser();
+        me=new User("Sacha", InetAddress.getLocalHost().toString());
+
         User eole = new User("Eole","192.168.123.132");
         User eole2 =  new User("Eole","192.168.123.133");
-        uc.UserLogin(eole);
-        uc.UserLogin(eole2);
-        uc.UserLogin(me);
+        //uc.UserLogin(eole);
+       // uc.UserLogin(eole2);
+        //uc.UserLogin(me);
         try {
 
 
@@ -39,7 +41,7 @@ public class Chat {
             nc.Connect(eole2);
             //
             nc.UserLogout(eole);
-
+            nc.UserLogout(me);
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -49,5 +51,5 @@ public class Chat {
 }
 
 
-//network controller : droadcast, check unicité username sur le reseau
+//network controller : broadcast, check unicité username sur le reseau
 //

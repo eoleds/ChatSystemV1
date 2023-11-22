@@ -22,6 +22,7 @@ public class UserController implements Controller {
         return currentUser;
     }
 
+
     public void stopListening() {
         listening = false;
     }
@@ -43,7 +44,7 @@ public class UserController implements Controller {
 
     ContactDiscovery ContactList = new ContactDiscovery();
 
-    public void myLogin(String name) {
+/*    public void myLogin(String name) {
         try {
             this.currentUser = new User(name, InetAddress.getLocalHost().toString());
             if (!ContactList.getUserList().contains(this.currentUser))
@@ -69,7 +70,7 @@ public class UserController implements Controller {
         }else{
             System.out.println("Username deja utilise");
         }
-    }
+    }*/
 
 
     public void CloseSocket()
@@ -104,6 +105,8 @@ public class UserController implements Controller {
                     if (!ContactList.getUsernames().contains(message.substring(9))) {
                         User user = new User(message.substring(9), senderAddress);
                         ContactList.addUser(user);
+                    }else {
+                        System.out.println("[apres New_User] : Username "+message.substring(9)+" deja utilise");
                     }
                     System.out.println(ContactList.getUsernames());
                     //SendMessage(8888, receivePacket.getAddress(),getCurrentUser());
