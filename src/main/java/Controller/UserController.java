@@ -26,45 +26,37 @@ public class UserController implements Controller {
         }
     }
 
-    private static final UserController instance = new UserController();
-    private List<UserInfo> userList = new ArrayList<>();
+    public static final UserController instance = new UserController();
+    private List<User> userList = new ArrayList<>();
     private User currentUser;
 
-    public List<UserInfo> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public void addUser(UserInfo userInfo) {
-        userList.add(userInfo);
+    public void addUser(User user) {
+        userList.add(user);
     }
 
     public List<String> getUsernames() {
         List<String> usernames = new ArrayList<>();
-        for (UserInfo userInfo : userList) {
-            usernames.add(userInfo.getUsername());
+        for (User user : userList) {
+            usernames.add(user.getUsername());
         }
         return usernames;
     }
     public List<UUID> getUserUUIDs() {
         List<UUID> userUUIDs = new ArrayList<>();
-        for (UserInfo userInfo : userList) {
-            userUUIDs.add(userInfo.getUuid());
+        for (User user : userList) {
+            userUUIDs.add(user.getUuid());
         }
         return userUUIDs;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void stopListening() {
-        listening = false;
-    }
 
     private boolean listening = true;
 
-    private UserController() {
-    }
+    public UserController() {}
 
     @Override
     public void initController() {
@@ -75,44 +67,25 @@ public class UserController implements Controller {
         return instance;
     }
 
-    public void myLogin(String name) {
-        try {
-            this.currentUser = new User(name, InetAddress.getLocalHost().toString());
-            UserInfo userInfo = new UserInfo(name, this.currentUser.getUuid());
-            if (!getUserList().contains(userInfo)) {
-                addUser(userInfo);
-            }
-
-            System.out.println(getUsernames());
-
-        } catch (SocketException e) {
-            throw new RuntimeException(e);
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void UserLogin(User user) {
+    public boolean UserLogin(User user) {
         if (!getUsernames().contains(user.getUsername())) {
             System.out.println("[UserController]: New connexion detected " + user.getUsername());
-            // Créez un nouvel UserInfo avec les informations nécessaires
-            UserInfo userInfo = new UserInfo(user.getUsername(), user.getUuid());
-            if (!getUserList().contains(userInfo))
-                addUser(userInfo);
-
+            addUser(user);
             System.out.println(getUsernames());
             System.out.println(getUserUUIDs());
+            return true;
         } else {
             System.out.println("Username déjà utilisé");
+            return false;
         }
     }
 
     public void UserLogout(User user) {
         // Recherchez l'UserInfo correspondant à l'utilisateur
-        UserInfo userInfoToRemove = null;
-        for (UserInfo userInfo : userList) {
-            if (userInfo.getUsername().equals(user.getUsername())) {
-                userInfoToRemove = userInfo;
+        User userToRemove = null;
+        for (User user1 : userList) {
+            if (user1.getUsername().equals(user.getUsername())) {
+                userToRemove = user1;
                 break;
             }
         }
@@ -120,8 +93,8 @@ public class UserController implements Controller {
         System.out.println(getUserUUIDs());
 
         // Supprimez l'UserInfo de la liste
-        if (userInfoToRemove != null) {
-            userList.remove(userInfoToRemove);
+        if (userToRemove != null) {
+            userList.remove(userToRemove);
             System.out.println("Local logout: " + user.getUsername());
         }
     }
@@ -150,8 +123,7 @@ public class UserController implements Controller {
                     String username = message.substring(9);
                     if (!getUsernames().contains(username)) {
                         User user = new User(username, senderAddress);
-                        UserInfo userInfo = new UserInfo(username, user.getUuid());
-                        addUser(userInfo);
+                        addUser(user);
                     } else {
                         System.out.println("[apres New_User] : Username " + username + " deja utilise");
                     }
@@ -161,8 +133,7 @@ public class UserController implements Controller {
                 } else if (message.startsWith("New_User_Response:")) {
                     String username = message.substring(18);
                     User user = new User(username, senderAddress);
-                    UserInfo userInfo = new UserInfo(username, user.getUuid());
-                    addUser(userInfo);
+                    addUser(user);
                     System.out.println(getUsernames());
                 }
                     System.out.println(getUsernames());
