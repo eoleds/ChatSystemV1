@@ -67,6 +67,18 @@ public class UserController implements Controller {
         return instance;
     }
 
+    public void printUserList() {
+        userList.forEach(this::print);
+    }
+    private void print(User user) {
+        StringJoiner stringJoiner = new StringJoiner(", ");
+        stringJoiner.add(user.getUsername());
+        String ip = user.getIp();
+        if (ip != null) {
+            stringJoiner.add(ip);
+        }
+        System.out.println(stringJoiner.toString());
+    }
     public boolean UserLogin(User user) {
         if (!getUsernames().contains(user.getUsername())) {
             System.out.println("[UserController]: New connexion detected " + user.getUsername());
