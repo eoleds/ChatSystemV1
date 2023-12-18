@@ -1,12 +1,10 @@
-package Controller;
+package Clavardage.Controller;
 
-import Model.User.User;
+import Clavardage.Model.User;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.UUID;
 
 public class NetworkController implements Controller{
     @Override

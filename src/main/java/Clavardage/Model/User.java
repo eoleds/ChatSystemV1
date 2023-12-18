@@ -1,9 +1,9 @@
-package Model.User;
+package Clavardage.Model;
 
 //import Model.Packet.ContactDiscovery;
 
-import java.io.IOException;
-import java.net.*;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.UUID;
 
 public class User {

@@ -1,7 +1,7 @@
-package Contoller;
+package Clavardage.Contoller;
 
-import Controller.UserController;
-import Model.User.User;
+import Clavardage.Controller.UserController;
+import Clavardage.Model.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -92,11 +92,24 @@ public class UserControllerTest {
     public void login_second_user() throws Exception {
         userController.UserLogin(SACHA_USER);
         List<User> liste1 = userController.getUserList();
-        assertFalse(liste1.contains("sasha"));
+        assertFalse(liste1.contains(SASHA_USER));
+        assertTrue(liste1.contains(SACHA_USER));
         userController.UserLogin(SASHA_USER);
         List<User> liste2 = userController.getUserList();
-        assertFalse(liste1.contains("saxha"));
-
+        assertTrue(liste2.contains(SASHA_USER));
+        assertTrue(liste2.contains(SACHA_USER));
     }
 
+@Test
+    public void logout_user() throws Exception {
+        userController.UserLogin(SACHA_USER);
+        assertTrue(userController.getUsernames().contains(SACHA_USERNAME));
+        userController.UserLogout(SACHA_USER);
+        assertFalse(userController.getUsernames().contains(SACHA_USERNAME));
+    }
+
+
+    //test possibles à ajouter :
+    //erreur si manque un champ ...
+    //test deconexion
 }

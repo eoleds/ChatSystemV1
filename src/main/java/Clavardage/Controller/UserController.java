@@ -1,6 +1,6 @@
-package Controller;
+package Clavardage.Controller;
 
-import Model.User.User;
+import Clavardage.Model.User;
 
 import java.io.IOException;
 import java.net.*;
@@ -29,6 +29,11 @@ public class UserController implements Controller {
     public static final UserController instance = new UserController();
     private List<User> userList = new ArrayList<>();
     private User currentUser;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
 
     public List<User> getUserList() {
         return userList;
