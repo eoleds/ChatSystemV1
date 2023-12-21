@@ -159,6 +159,8 @@ public class UserController implements Controller {
                     }
                     System.out.println(getUsernames());
                     NetworkController nc = NetworkController.getInstance();
+                    InetAddress localhost = InetAddress.getLocalHost();
+                    currentUser = new User("SachaInsa",localhost.getHostAddress());
                     nc.SendMessageConnexion(8888, receivePacket.getAddress(), currentUser);
                 } else if (message.startsWith("New_User_Response:")) {
                     String username = message.substring(18);

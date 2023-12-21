@@ -23,7 +23,7 @@ public class Chat {
         ThreadController tc = ThreadController.getInstance();
 
 
-        User me=new User("Sacha", InetAddress.getLocalHost().toString());
+        User me=new User("SachaInsa", InetAddress.getLocalHost().toString());
         uc.UserLogin(me);
         nc.Connect(me);
 
