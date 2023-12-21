@@ -24,6 +24,7 @@ public class Chat {
 
 
         User me=new User("SachaInsa", InetAddress.getLocalHost().toString());
+        uc.setCurrentUser(me);
         uc.UserLogin(me);
         nc.Connect(me);
 
@@ -39,11 +40,11 @@ public class Chat {
             }).start();
 
 
-            int portForThread = 12345;  // Replace with the desired port
-            tc.OuvrirDiscussion(me, portForThread);
+          //  int portForThread = 12345;  // Replace with the desired port
+          //  tc.OuvrirDiscussion(me, portForThread);
 
             // Example: FermerDiscussion
-            tc.FermerDiscussion(me);
+          //  tc.FermerDiscussion(me);
     } catch (Exception e) {
         e.printStackTrace();
     }
