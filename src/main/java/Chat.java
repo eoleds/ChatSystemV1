@@ -4,7 +4,6 @@ import Clavardage.Controller.UserController;
 import Clavardage.Model.User;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -16,39 +15,19 @@ public class Chat {
     public static void main(String[] args) throws SocketException, UnknownHostException {
 
 
-
-
-        UserController uc= UserController.getInstance();
+        UserController uc = UserController.getInstance();
         NetworkController nc = NetworkController.getInstance();
         ThreadController tc = ThreadController.getInstance();
 
 
-        User me=new User("SachaInsa", InetAddress.getLocalHost().toString());
+        User me = new User("SachaInsa", InetAddress.getLocalHost().toString());
         uc.setCurrentUser(me);
         uc.UserLogin(me);
         nc.Connect(me);
 
 
-        try {
 
-            new Thread(() -> {
-                try {
-                    uc.ReceiveMessages();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-
-          //  int portForThread = 12345;  // Replace with the desired port
-          //  tc.OuvrirDiscussion(me, portForThread);
-
-            // Example: FermerDiscussion
-          //  tc.FermerDiscussion(me);
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-    }
-
 }
+
 

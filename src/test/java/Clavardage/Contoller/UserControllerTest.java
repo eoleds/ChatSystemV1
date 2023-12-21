@@ -109,7 +109,20 @@ public class UserControllerTest {
         assertFalse(userController.getUsernames().contains(SACHA_USERNAME));
     }
 
+    @Test
+    public void testGetUserByUsername() throws Exception {
+        // Ajouter un utilisateur pour le test
+        User user = new User("TestUser", "127.0.0.1");
+        userController.addUser(user);
 
+        // Tester la méthode getUserByUsername avec le nom d'utilisateur existant
+        User retrievedUser = userController.getUserByUsername("TestUser");
+        assertEquals(user, retrievedUser);
+
+        // Tester la méthode getUserByUsername avec un nom d'utilisateur inexistant
+        retrievedUser = userController.getUserByUsername("NonExistentUser");
+        assertNull(retrievedUser);
+    }
     public void open_thread_request_test() throws Exception {
         // Créez un nouveau utilisateur pour simuler l'expéditeur de la requête
         User expeditorUser = new User("expeditor", "192.168.123.140");

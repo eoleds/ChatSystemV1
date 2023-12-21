@@ -63,7 +63,7 @@ public class UserController implements Controller {
         return userUUIDs;
     }
 
-    private User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         for (User user : userList) {
             if (user.getUsername().equals(username)) {
                 return user;
@@ -169,7 +169,7 @@ public class UserController implements Controller {
                     addUser(user);
                     System.out.println(getUsernames());
 
-                } else if (message.startsWith("Requete_Discussion:")) {
+                } else if (message.startsWith("Requete_Ouverture:")) {
                     String[] parties = message.split(":");
                     if (parties.length == 3 && parties[0].equals("Requete_Ouverture_Thread")) {
                         String nomUtilisateur = parties[1];
@@ -181,7 +181,7 @@ public class UserController implements Controller {
 
                         if (threadExistant == null) {
                             // Le thread n'existe pas encore, ouvrez-le
-                            tc.DiscussionOuverte(utilisateurCible, portCible);
+                           // tc.OuvrirDiscussion(utilisateurCible, portCible);
 
                             // Vous pouvez également ajouter le thread à votre liste de threads actifs si nécessaire
                         } else {
