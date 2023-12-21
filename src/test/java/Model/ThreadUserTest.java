@@ -36,6 +36,11 @@ public class ThreadUserTest {
     }
 
     @Test
+    public void testGetInputStream() {
+        assertNotNull(threadUser.getInputStream());
+    }
+
+    @Test
     public void testClose() throws IOException {
         threadUser.close();
         assertTrue(clientSocket.isClosed());

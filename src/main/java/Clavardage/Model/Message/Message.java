@@ -1,8 +1,5 @@
 package Clavardage.Model.Message;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -39,17 +36,7 @@ public class Message {
         return uuidReceiver;
     }
 
-    private static byte[] parseFile(File file) throws IOException {
-        System.out.println(file.length());
-        byte[] content = Files.readAllBytes(file.toPath());
-        System.out.println(content.length);
-        return content;
-    }
 
-    public static Message createFileMessage(File file, UUID uuidSender, UUID uuidReceiver) throws IOException {
-        byte[] content = parseFile(file);
-        return new Message(uuidSender, uuidReceiver, content );
-    }
 
     @Override
     public String toString() {

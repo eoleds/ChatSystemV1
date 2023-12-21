@@ -17,7 +17,7 @@ public class ThreadController implements Controller {
     public static ThreadController getInstance() {
         return instance;
     }
-    private ThreadController(){};
+    private ThreadController(){initController();};
 
     @Override
     public void initController() {
@@ -39,8 +39,8 @@ public class ThreadController implements Controller {
     public void OuvrirDiscussion(User user, int localPort) {
         try {
             if (!discussion.containsKey(user)) {
-                //PacketToEmit packet = new PacketEmtOpenConversation(agent, localPort);
-              //  PacketManager.getInstance().sendPacket(agent.getIp(), packet);
+                NetworkController nc = NetworkController.getInstance();
+
 
                // if (Chat.DEBUG)
                     System.out.println("[ThreadManager] Waiting for connexion at port " + localPort + "...");

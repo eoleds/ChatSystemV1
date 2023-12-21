@@ -1,5 +1,6 @@
 package Clavardage.Contoller;
 
+import Clavardage.Controller.ThreadController;
 import Clavardage.Controller.UserController;
 import Clavardage.Model.User;
 import org.junit.Before;
@@ -109,7 +110,36 @@ public class UserControllerTest {
     }
 
 
-    //test possibles à ajouter :
-    //erreur si manque un champ ...
-    //test deconexion
+    public void open_thread_request_test() throws Exception {
+        // Créez un nouveau utilisateur pour simuler l'expéditeur de la requête
+        User expeditorUser = new User("expeditor", "192.168.123.140");
+
+        // Ajoutez l'utilisateur à la liste des utilisateurs du UserController
+        userController.addUser(expeditorUser);
+
+        // Simulez la réception d'un message de requête d'ouverture de thread
+        String threadRequestMessage = "Requete_Ouverture_Thread:" + SACHA_USERNAME + ":3333";
+
+        // Démarrer la réception des messages dans un thread
+        new Thread(() -> {
+            try {
+                userController.ReceiveMessages();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        // Attendre pendant un certain temps (par exemple, 5 secondes)
+        Thread.sleep(5000);
+
+
+        // Vérifier que le thread a été ouvert dans le ThreadController
+        ThreadController tc = ThreadController.getInstance();
+        assertNotNull(tc.getUserThread(SACHA_USER));
+
+        // Nettoyez après le test
+        tc.FermerDiscussion(SACHA_USER);
+        userController.UserLogout(expeditorUser);
+    }
+
 }
