@@ -12,7 +12,7 @@ A faire :
                 deuxieme phase = il accepte et me dit qu'il est dipo sur tel port 
                 troisieme phase = je me connecte sur son port dispo et lancement de la discussion (recuperation d'historique blabla)
 
--le thread controller doit lancer le thrad initial(application) et permettre de lancer tous les threads fils(dicussions)
+-le thread controller doit lancer le thread initial(application) et permettre de lancer tous les threads fils(dicussions)
 -les interfaces (swing)
 -le db manager 
 -database sqlite avec les historiques
