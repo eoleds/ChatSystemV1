@@ -65,43 +65,42 @@ public class NetworkController implements Controller{
 
         int port = 8888; // Specify the port to listen on
         UserController uc = UserController.getInstance();
-        try {
-            DatagramSocket socket = new DatagramSocket(port);
-            DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
+        while (true) {
+                try {
+                    DatagramSocket socket = new DatagramSocket(port);
+                    DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
+                    socket.receive(receivePacket);
+                    String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                    String senderAddress = receivePacket.getAddress().getHostAddress();
+                    int senderPort = receivePacket.getPort();
+                    System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
-            while (true) {
-                socket.receive(receivePacket);
-                String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
-                String senderAddress = receivePacket.getAddress().getHostAddress();
-                int senderPort = receivePacket.getPort();
-                System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
-
-                if (message.startsWith("New_User:")) {
-                    String username = message.substring(9);
-                    if (!uc.getUsernames().contains(username)) {
+                    if (message.startsWith("New_User:")) {
+                        String username = message.substring(9);
+                        if (!uc.getUsernames().contains(username)) {
+                            User user = new User(username, senderAddress);
+                            uc.addUser(user);
+                        } else {
+                            System.out.println("[apres New_User] : Username " + username + " deja utilise");
+                        }
+                        System.out.println(uc.getUsernames());
+                        User me = uc.getCurrentUser();
+                        SendMessageConnexion(8888, receivePacket.getAddress(), me);
+                    } else if (message.startsWith("New_User_Response:")) {
+                        String username = message.substring(18);
                         User user = new User(username, senderAddress);
-                        uc.addUser(user);
-                    } else {
-                        System.out.println("[apres New_User] : Username " + username + " deja utilise");
-                    }
-                    System.out.println(uc.getUsernames());
-                    User me = uc.getCurrentUser();
-                    SendMessageConnexion(8888, receivePacket.getAddress(), me);
-                } else if (message.startsWith("New_User_Response:")) {
-                    String username = message.substring(18);
-                    User user = new User(username, senderAddress);
-                    System.out.println(uc.getUsernames());
+                        System.out.println(uc.getUsernames());
 
-                }  else if (message.startsWith("User_Disconnected:")) {
-                String username = message.substring(18);
-                User disconnectedUser = uc.getUserByUsername(username);
-                    if (disconnectedUser != null) {
-                        uc.getUserList().remove(disconnectedUser);
-                        System.out.println("User " + username + " disconnected.");
-                    } else {
-                        System.out.println("Unknown user disconnected: " + username);
-                    }
-                }else if (message.startsWith("Requete_Ouverture:")) {
+                    } else if (message.startsWith("User_Disconnected:")) {
+                        String username = message.substring(18);
+                        User disconnectedUser = uc.getUserByUsername(username);
+                        if (disconnectedUser != null) {
+                            uc.getUserList().remove(disconnectedUser);
+                            System.out.println("User " + username + " disconnected.");
+                        } else {
+                            System.out.println("Unknown user disconnected: " + username);
+                        }
+                    } else if (message.startsWith("Requete_Ouverture:")) {
                         String[] parties = message.split(":");
                         if (parties.length == 3 && parties[0].equals("Requete_Ouverture_Thread")) {
                             String nomUtilisateur = parties[1];
@@ -122,10 +121,12 @@ public class NetworkController implements Controller{
                             }
                         }
                     }
+
+
+                } catch (IOException e) {
+                    System.err.println("Received error" + e.getMessage());
                 }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     public void envoyerRequeteOuvertureThread(User utilisateurCible, int portCible, User utilisateurEmetteur) {

@@ -114,18 +114,17 @@ public class UserController implements Controller {
         System.out.println(getUsernames());
         System.out.println(getUserUUIDs());
 
-        // Supprimez l'UserInfo de la liste
         if (userToRemove != null) {
             userList.remove(userToRemove);
             System.out.println("Local logout: " + user.getUsername());
-
+            NetworkController.getInstance().disconnect(userToRemove);
         }
     }
-
 
     public void CloseSocket() {
         this.currentUser.getSocket().close();
     }
+
 
 
 
