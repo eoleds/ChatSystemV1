@@ -9,6 +9,23 @@ import java.util.*;
 
 public class UserController implements Controller {
 
+    public static class UserInfo {
+        private String username;
+        private UUID uuid;
+
+        public UserInfo(String username, UUID uuid) {
+            this.username = username;
+            this.uuid = uuid;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public UUID getUuid() {
+            return uuid;
+        }
+    }
 
     public static final UserController instance = new UserController();
     private List<User> userList = new ArrayList<>();
@@ -27,11 +44,11 @@ public class UserController implements Controller {
     }
 
     public void addUser(User user) {
-    String name=  user.getUsername();
+        String name=  user.getUsername();
         if (getUsernames().contains(name)){
             System.out.println("[adduser]: username deja utilisé");
         }else{
-        userList.add(user);
+            userList.add(user);
         }
     }
 
@@ -65,6 +82,7 @@ public class UserController implements Controller {
     public UserController() {
     }
 
+    NetworkController nc = NetworkController.getInstance();
     @Override
     public void initController() {
         userList = new ArrayList<>();
@@ -92,9 +110,9 @@ public class UserController implements Controller {
         if (!getUsernames().contains(user.getUsername())) {
             System.out.println("[UserController]: New connexion detected " + user.getUsername());
             addUser(user);
-            NetworkController.getInstance().Connect(user);
             System.out.println(getUsernames());
-            System.out.println(getUserUUIDs());
+          //  System.out.println(getUserUUIDs());
+            nc.Connect(user);
             return true;
         } else {
             System.out.println("Username déjà utilisé");
@@ -103,23 +121,32 @@ public class UserController implements Controller {
     }
 
     public void UserLogout(User user) {
-        // Recherchez l'UserInfo correspondant à l'utilisateur
+   /*
         User userToRemove = null;
         for (User user1 : userList) {
-            if (user1.getUsername().equals(user.getUsername())) {
+            if (user1.equals(user)) {
                 userToRemove = user1;
+                System.out.println("user trouvé dans la liste");
                 break;
             }
         }
-        System.out.println(getUsernames());
+        System.out.println("UserLogout:"+getUsernames());
         System.out.println(getUserUUIDs());
 
         if (userToRemove != null) {
             userList.remove(userToRemove);
             System.out.println("Local logout: " + user.getUsername());
-            NetworkController.getInstance().disconnect(userToRemove);
+        }*/
+        try{
+            System.out.println("liste des users co avant logout:"+getUsernames());
+            userList.remove(user);
+            System.out.println("liste des users co après logout:"+getUsernames());
+            nc.disconnect(user);
+        }catch (Exception e) {
+            System.err.println("User non trouvé dans la liste:"+e.getMessage());
         }
     }
+
 
     public void CloseSocket() {
         this.currentUser.getSocket().close();
@@ -127,7 +154,5 @@ public class UserController implements Controller {
 
 
 
-
 }
-
 

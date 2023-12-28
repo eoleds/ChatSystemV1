@@ -20,14 +20,13 @@ public class Chat {
         ThreadController tc = ThreadController.getInstance();
 
 
-        User me = new User("SachaInsa", InetAddress.getLocalHost().toString());
+        User me = new User("SachaLozere", InetAddress.getLocalHost().toString());
         uc.setCurrentUser(me);
         uc.UserLogin(me);
-        nc.Connect(me);
+        uc.UserLogout(me);
 
 
 
     }
 }
-
 

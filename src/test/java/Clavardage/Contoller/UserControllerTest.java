@@ -112,48 +112,20 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserByUsername() throws Exception {
-        // Ajouter un utilisateur pour le test
+
         User user = new User("TestUser", "127.0.0.1");
         userController.addUser(user);
+        User user2 = new User("TestUser2", "10.29.0.12");
+        userController.addUser(user2);
 
-        // Tester la méthode getUserByUsername avec le nom d'utilisateur existant
         User retrievedUser = userController.getUserByUsername("TestUser");
+        User retrievedUser2 = userController.getUserByUsername("TestUser2");
         assertEquals(user, retrievedUser);
+        assertNotEquals(user,retrievedUser2);
 
         // Tester la méthode getUserByUsername avec un nom d'utilisateur inexistant
         retrievedUser = userController.getUserByUsername("NonExistentUser");
         assertNull(retrievedUser);
-    }
-    public void open_thread_request_test() throws Exception {
-        // Créez un nouveau utilisateur pour simuler l'expéditeur de la requête
-        User expeditorUser = new User("expeditor", "192.168.123.140");
-
-        // Ajoutez l'utilisateur à la liste des utilisateurs du UserController
-        userController.addUser(expeditorUser);
-
-        // Simulez la réception d'un message de requête d'ouverture de thread
-        String threadRequestMessage = "Requete_Ouverture_Thread:" + SACHA_USERNAME + ":3333";
-
-        // Démarrer la réception des messages dans un thread
-        new Thread(() -> {
-            try {
-                NetworkController.getInstance().ReceiveMessagesUDP();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-
-        // Attendre pendant un certain temps (par exemple, 5 secondes)
-        Thread.sleep(5000);
-
-
-        // Vérifier que le thread a été ouvert dans le ThreadController
-        ThreadController tc = ThreadController.getInstance();
-        assertNotNull(tc.getUserThread(SACHA_USER));
-
-        // Nettoyez après le test
-       // tc.FermerDiscussion(SACHA_USER);
-        userController.UserLogout(expeditorUser);
     }
 
 }

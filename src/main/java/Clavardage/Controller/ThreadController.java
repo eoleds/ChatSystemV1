@@ -41,10 +41,11 @@ public class ThreadController implements Controller {
 
     public void startListening() {
         UserController uc = UserController.getInstance();
+        NetworkController nc = NetworkController.getInstance();
         new Thread(() -> {
             try {
                 ServerSocket serverSocket = new ServerSocket(8888);
-                NetworkController.getInstance().ReceiveMessagesUDP();
+                nc.ReceiveMessagesUDP();
 
             } catch (IOException e) {
                 e.printStackTrace();
