@@ -1,5 +1,6 @@
 package Clavardage.Contoller;
 
+import Clavardage.Controller.NetworkController;
 import Clavardage.Controller.ThreadController;
 import Clavardage.Controller.UserController;
 import Clavardage.Model.User;
@@ -136,7 +137,7 @@ public class UserControllerTest {
         // Démarrer la réception des messages dans un thread
         new Thread(() -> {
             try {
-                userController.ReceiveMessages();
+                NetworkController.getInstance().ReceiveMessagesUDP();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -151,7 +152,7 @@ public class UserControllerTest {
         assertNotNull(tc.getUserThread(SACHA_USER));
 
         // Nettoyez après le test
-        tc.FermerDiscussion(SACHA_USER);
+       // tc.FermerDiscussion(SACHA_USER);
         userController.UserLogout(expeditorUser);
     }
 

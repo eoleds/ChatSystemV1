@@ -9,23 +9,6 @@ import java.util.*;
 
 public class UserController implements Controller {
 
-    public static class UserInfo {
-        private String username;
-        private UUID uuid;
-
-        public UserInfo(String username, UUID uuid) {
-            this.username = username;
-            this.uuid = uuid;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public UUID getUuid() {
-            return uuid;
-        }
-    }
 
     public static final UserController instance = new UserController();
     private List<User> userList = new ArrayList<>();
@@ -44,7 +27,12 @@ public class UserController implements Controller {
     }
 
     public void addUser(User user) {
+    String name=  user.getUsername();
+        if (getUsernames().contains(name)){
+            System.out.println("[adduser]: username deja utilisé");
+        }else{
         userList.add(user);
+        }
     }
 
     public List<String> getUsernames() {
@@ -104,6 +92,7 @@ public class UserController implements Controller {
         if (!getUsernames().contains(user.getUsername())) {
             System.out.println("[UserController]: New connexion detected " + user.getUsername());
             addUser(user);
+            NetworkController.getInstance().Connect(user);
             System.out.println(getUsernames());
             System.out.println(getUserUUIDs());
             return true;
@@ -129,6 +118,7 @@ public class UserController implements Controller {
         if (userToRemove != null) {
             userList.remove(userToRemove);
             System.out.println("Local logout: " + user.getUsername());
+
         }
     }
 
@@ -137,66 +127,7 @@ public class UserController implements Controller {
         this.currentUser.getSocket().close();
     }
 
-    public void ReceiveMessages() throws IOException {
 
-        int port = 8888; // Specify the port to listen on
-
-        try {
-            DatagramSocket socket = new DatagramSocket(port);
-            DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
-
-            while (listening) {
-                socket.receive(receivePacket);
-                String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
-                String senderAddress = receivePacket.getAddress().getHostAddress();
-                int senderPort = receivePacket.getPort();
-                System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
-
-                if (message.startsWith("New_User:")) {
-                    String username = message.substring(9);
-                    if (!getUsernames().contains(username)) {
-                        User user = new User(username, senderAddress);
-                        addUser(user);
-                    } else {
-                        System.out.println("[apres New_User] : Username " + username + " deja utilise");
-                    }
-                    System.out.println(getUsernames());
-                    NetworkController nc = NetworkController.getInstance();
-                    nc.SendMessageConnexion(8888, receivePacket.getAddress(), currentUser);
-                } else if (message.startsWith("New_User_Response:")) {
-                    String username = message.substring(18);
-                    User user = new User(username, senderAddress);
-                    addUser(user);
-                    System.out.println(getUsernames());
-
-                } else if (message.startsWith("Requete_Ouverture:")) {
-                    String[] parties = message.split(":");
-                    if (parties.length == 3 && parties[0].equals("Requete_Ouverture_Thread")) {
-                        String nomUtilisateur = parties[1];
-                        int portCible = Integer.parseInt(parties[2]);
-                        ThreadController tc = ThreadController.getInstance();
-                        // Vérifier si le thread existe déjà pour cet utilisateur
-                        User utilisateurCible = getUserByUsername(nomUtilisateur);
-                        ThreadUser threadExistant = tc.getUserThread(utilisateurCible);
-
-                        if (threadExistant == null) {
-                            // Le thread n'existe pas encore, ouvrez-le
-                           // tc.OuvrirDiscussion(utilisateurCible, portCible);
-
-                            // Vous pouvez également ajouter le thread à votre liste de threads actifs si nécessaire
-                        } else {
-                            // Le thread existe déjà, vous pouvez gérer cela en conséquence
-                            System.out.println("Le thread existe déjà pour l'utilisateur " + nomUtilisateur);
-                        }
-                    }
-                }
-            }
-            System.out.println(getUsernames());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 

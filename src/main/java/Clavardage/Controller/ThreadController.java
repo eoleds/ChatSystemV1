@@ -5,7 +5,6 @@ import Clavardage.Model.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -44,16 +43,9 @@ public class ThreadController implements Controller {
         UserController uc = UserController.getInstance();
         new Thread(() -> {
             try {
-                ServerSocket serverSocket = new ServerSocket(8888); // ajustez le port selon vos besoins
-                uc.ReceiveMessages();
-                while (true) {
-                    System.out.println("[ThreadManager] Waiting for connection...");
-                    Socket socket = serverSocket.accept();
-                    System.out.println("[ThreadManager] Connection accepted");
+                ServerSocket serverSocket = new ServerSocket(8888);
+                NetworkController.getInstance().ReceiveMessagesUDP();
 
-                    // Créez un nouveau thread pour gérer la conversation avec l'utilisateur
-                    executorService.submit(() -> handleConnection(socket));
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -62,10 +54,5 @@ public class ThreadController implements Controller {
 
 
     //nv thread sur port aleatoire, envoie msg sur 3infos recues en precisant addresse ip et port
-
-    private void handleConnection(Socket socket) {
-        // Traitez la connexion ici selon vos besoins
-        // Vous pouvez créer un ThreadUser, gérer la conversation, etc.
-    }
 
 }
