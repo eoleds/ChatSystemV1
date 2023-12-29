@@ -9,23 +9,6 @@ import java.util.*;
 
 public class UserController implements Controller {
 
-    public static class UserInfo {
-        private String username;
-        private UUID uuid;
-
-        public UserInfo(String username, UUID uuid) {
-            this.username = username;
-            this.uuid = uuid;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public UUID getUuid() {
-            return uuid;
-        }
-    }
 
     public static final UserController instance = new UserController();
     private List<User> userList = new ArrayList<>();
@@ -77,7 +60,6 @@ public class UserController implements Controller {
         return null;
     }
 
-    private boolean listening = true;
 
     public UserController() {
     }
@@ -92,9 +74,6 @@ public class UserController implements Controller {
         return instance;
     }
 
-    public void printUserList() {
-        userList.forEach(this::print);
-    }
 
     private void print(User user) {
         StringJoiner stringJoiner = new StringJoiner(", ");
@@ -146,12 +125,6 @@ public class UserController implements Controller {
             System.err.println("User non trouvé dans la liste:"+e.getMessage());
         }
     }
-
-
-    public void CloseSocket() {
-        this.currentUser.getSocket().close();
-    }
-
 
 
 }

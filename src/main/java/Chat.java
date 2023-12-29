@@ -24,9 +24,6 @@ public class Chat {
         uc.setCurrentUser(me);
         uc.UserLogin(me);
         uc.UserLogout(me);
-
-
-
     }
 }
 
