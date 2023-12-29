@@ -16,3 +16,5 @@ A faire :
 -les interfaces (swing)
 -le db manager 
 -database sqlite avec les historiques
+
+idée : appeler ReceivedUDP dans l'initiation du NetworkController et pas du ThreadController ??????????????
