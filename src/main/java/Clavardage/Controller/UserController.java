@@ -51,6 +51,14 @@ public class UserController implements Controller {
         return userUUIDs;
     }
 
+    public User getUserByIP(String IP) {
+        for (User user : userList) {
+            if (user.getIp().equals(IP)) {
+                return user;
+            }
+        }
+        return null;
+    }
     public User getUserByUsername(String username) {
         for (User user : userList) {
             if (user.getUsername().equals(username)) {

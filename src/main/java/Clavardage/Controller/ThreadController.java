@@ -3,8 +3,11 @@ package Clavardage.Controller;
 import Clavardage.Model.ThreadUser;
 import Clavardage.Model.User;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -19,6 +22,8 @@ public class ThreadController implements Controller {
     public static ThreadController getInstance() {
         return instance;
     }
+
+    public boolean listening = true;
 
     private ThreadController() {
         initController();
@@ -44,8 +49,43 @@ public class ThreadController implements Controller {
         NetworkController nc = NetworkController.getInstance();
         new Thread(() -> {
             try {
+
                 ServerSocket serverSocket = new ServerSocket(8888);
-                nc.ReceiveMessagesUDP();
+                nc.ReceiveMessagesUDP(); //pourquoi ici ? bien ??
+
+                // getting client request
+                while (listening)
+                // running infinite loop
+                {
+                    Socket mynewSocket = null;
+                    try
+                    {
+                        // mynewSocket object to receive incoming client requests
+                        mynewSocket = serverSocket.accept();
+                        System.out.println("A new connection identified : " + mynewSocket);
+
+
+                        // Extraire l'utilisateur émetteur en fonction de son adresse IP
+                        String senderAddress = mynewSocket.getInetAddress().getHostAddress();
+                        User senderUser = uc.getUserByIP(senderAddress);
+
+
+                        // creation ThreadUser avec input et output sur ce thread
+                        ThreadUser newThread = new ThreadUser(mynewSocket);
+                        System.out.println("Thread assigned");
+
+                        // Ajouter l'utilisateur émetteur et le nouveau thread à la map discussion
+                        discussion.put(senderUser, newThread);
+
+                        newThread.start();
+
+                    }
+                    catch (Exception e){
+                        mynewSocket.close();
+                        e.printStackTrace();
+                    }
+                }
+
 
             } catch (IOException e) {
                 e.printStackTrace();

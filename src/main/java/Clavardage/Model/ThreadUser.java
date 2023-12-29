@@ -3,9 +3,10 @@ package Clavardage.Model;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class ThreadUser {
+public class ThreadUser extends Thread {
 
     private Socket socket;
     private DataInputStream in;
@@ -22,6 +23,7 @@ public class ThreadUser {
         try {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
