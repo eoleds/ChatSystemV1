@@ -2,6 +2,7 @@ Dans notre projet, nous envoyons des messages string avec un NetworkController e
 
 Nous avons essayé de faire en sorte que le NetworkController se charge de tout le trafic de paquet et le UserController du traitement lié aux utilisateurs (unicité username, update de la liste des userconnectés..)
 
+diagrammes : https://drive.google.com/drive/u/0/folders/1DIh3fH26J1nbQ3RgZTMN5EKk5dP-OfFU
 
 site projet et cahier des charges : 
 https://arbimo.github.io/insa-4ir-advanced-prog/
@@ -18,3 +19,4 @@ A faire :
 -database sqlite avec les historiques
 
 idée : appeler ReceivedUDP dans l'initiation du NetworkController et pas du ThreadController ??????????????
+
