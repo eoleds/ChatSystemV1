@@ -45,8 +45,8 @@ public class NetworkController implements Controller{
             user.getSocket().send(packet);
             System.out.println("Disconnect message sent successfully by " + user.getUsername());
 
-            // Vous pouvez également ajouter des actions de déconnexion locales ici,
-            // comme fermer les threads ou les connexions associés à cet utilisateur.
+            // ajouter des actions de déconnexion locales ici,
+            // comme fermer les threads ou les connexions associés à cet utilisateur?
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -119,7 +119,7 @@ public class NetworkController implements Controller{
                         uc.getUserList().remove(disconnectedUser);
                         System.out.println("User " + username + " disconnected.");
                     } else {
-                        System.out.println("Unknown user disconnected: " + username);
+                        System.out.println("User already disconnected: " + username);
                     }
                 }
 

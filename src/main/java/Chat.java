@@ -1,8 +1,10 @@
 import Clavardage.Controller.NetworkController;
 import Clavardage.Controller.ThreadController;
 import Clavardage.Controller.UserController;
+import Clavardage.Interfaces.Acceuil;
 import Clavardage.Model.User;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -21,13 +23,20 @@ public class Chat {
         ThreadController tc = ThreadController.getInstance();
 
 
+        SwingUtilities.invokeLater(new Runnable() {
+             @Override
+             public void run() {
+                new Acceuil(uc);
+             }
+        });
 
 
 
+/*
         User me = new User("SachaLozere", InetAddress.getLocalHost().toString());
         uc.setCurrentUser(me);
         uc.UserLogin(me);
-        uc.UserLogout(me);
+        uc.UserLogout(me);*/
     }
 }
 
