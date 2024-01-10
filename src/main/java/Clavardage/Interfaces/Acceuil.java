@@ -94,6 +94,7 @@ public class Acceuil extends JFrame {
 
                 JTextField messageField = new JTextField(20);
                 JButton sendButton = new JButton("Envoyer");
+
                 sendButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -104,7 +105,7 @@ public class Acceuil extends JFrame {
                 JPanel messagePanel = new JPanel();
                 messagePanel.add(messageField);
                 messagePanel.add(sendButton);
-                chatPanel.add(messagePanel, BorderLayout.SOUTH);
+                chatPanel.add(messagePanel, BorderLayout.NORTH);
 
                 JButton disconnectButton = new JButton("Déconnexion");
                 disconnectButton.addActionListener(new ActionListener() {

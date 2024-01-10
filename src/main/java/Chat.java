@@ -22,7 +22,6 @@ public class Chat {
         NetworkController nc = NetworkController.getInstance();
         ThreadController tc = ThreadController.getInstance();
 
-
         SwingUtilities.invokeLater(new Runnable() {
              @Override
              public void run() {
