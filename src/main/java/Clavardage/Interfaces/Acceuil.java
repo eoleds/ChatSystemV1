@@ -10,16 +10,21 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class Acceuil extends JFrame {
 
     private JTextField nameField;
     private UserController userController;
-    private JFrame chatFrame;  // Ajout de la référence à la fenêtre de chat
+    private JFrame chatFrame;
+    private DefaultListModel<String> connectedUsersListModel;  // Ajout du modèle de données pour la liste des utilisateurs
 
     public Acceuil(UserController userController) {
         super("Page d'accueil du Chat");
         this.userController = userController;
+
+        // Initialisation du modèle de données pour la liste des utilisateurs
+        connectedUsersListModel = new DefaultListModel<>();
 
         JLabel nameLabel = new JLabel("Entrez votre prénom :");
         nameField = new JTextField(20);
@@ -84,7 +89,7 @@ public class Acceuil extends JFrame {
                 });
 
                 JPanel chatPanel = new JPanel(new BorderLayout());
-                JList<String> connectedUsersList = new JList<>(new DefaultListModel<>());
+                JList<String> connectedUsersList = new JList<>(connectedUsersListModel);  // Utilisation du modèle de données
                 JScrollPane connectedUsersScrollPane = new JScrollPane(connectedUsersList);
                 chatPanel.add(connectedUsersScrollPane, BorderLayout.WEST);
 
@@ -123,7 +128,7 @@ public class Acceuil extends JFrame {
                 Timer timer = new Timer(5000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // updateConnectedUsersList(connectedUsersList);
+                        updateConnectedUsersList(connectedUsersList);
                     }
                 });
                 timer.start();
@@ -137,6 +142,14 @@ public class Acceuil extends JFrame {
             userController.UserLogout(currentUser);
             JOptionPane.showMessageDialog(this, "Déconnexion réussie.");
             chatFrame.dispose();  // Fermez l'interface de chat
+        }
+    }
+
+    private void updateConnectedUsersList(JList<String> connectedUsersList) {
+        List<String> connectedUsers = userController.getUsernames();
+        connectedUsersListModel.removeAllElements();
+        for (String user : connectedUsers) {
+            connectedUsersListModel.addElement(user);
         }
     }
 }

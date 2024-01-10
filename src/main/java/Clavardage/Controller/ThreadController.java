@@ -53,14 +53,14 @@ public class ThreadController implements Controller {
                 ServerSocket serverSocket = new ServerSocket(8888);
                 nc.ReceiveMessagesUDP(); //pourquoi ici ? bien ??
 
-                // getting client request
+
                 while (listening)
-                // running infinite loop
+
                 {
                     Socket mynewSocket = null;
                     try
                     {
-                        // mynewSocket object to receive incoming client requests
+
                         mynewSocket = serverSocket.accept();
                         System.out.println("A new connection identified : " + mynewSocket);
 
@@ -77,7 +77,7 @@ public class ThreadController implements Controller {
                         // Ajouter l'utilisateur émetteur et le nouveau thread à la map discussion
                         discussion.put(senderUser, newThread);
 
-                        newThread.start();
+                        newThread.start();//refaire methode
 
                     }
                     catch (Exception e){

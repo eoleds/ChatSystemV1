@@ -30,12 +30,6 @@ public class Chat {
         });
 
 
-
-/*
-        User me = new User("SachaLozere", InetAddress.getLocalHost().toString());
-        uc.setCurrentUser(me);
-        uc.UserLogin(me);
-        uc.UserLogout(me);*/
     }
 }
 
