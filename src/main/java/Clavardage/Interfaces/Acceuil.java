@@ -1,14 +1,15 @@
 package Clavardage.Interfaces;
 
 import Clavardage.Network.NetworkController;
-import Clavardage.User.UserController;
 import Clavardage.User.User;
+import Clavardage.User.UserController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -20,14 +21,13 @@ public class Acceuil extends JFrame {
     private UserController userController;
     private NetworkController networkController;
     private JFrame chatFrame;
-    private DefaultListModel<String> connectedUsersListModel;  // Ajout du modèle de données pour la liste des utilisateurs
+    private DefaultListModel<String> connectedUsersListModel;
 
     public Acceuil(UserController userController, NetworkController networkController) {
         super("Page d'accueil du Chat");
         this.userController = userController;
-        this.networkController=networkController;
+        this.networkController = networkController;
 
-        // Initialisation du modèle de données pour la liste des utilisateurs
         connectedUsersListModel = new DefaultListModel<>();
 
         JLabel nameLabel = new JLabel("Entrez votre prénom :");
@@ -93,7 +93,7 @@ public class Acceuil extends JFrame {
                 });
 
                 JPanel chatPanel = new JPanel(new BorderLayout());
-                JList<String> connectedUsersList = new JList<>(connectedUsersListModel);  // Utilisation du modèle de données
+                JList<String> connectedUsersList = new JList<>(connectedUsersListModel);
                 JScrollPane connectedUsersScrollPane = new JScrollPane(connectedUsersList);
                 chatPanel.add(connectedUsersScrollPane, BorderLayout.WEST);
 
@@ -109,11 +109,10 @@ public class Acceuil extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             networkController.sendMessageUDP(messageField.getText());
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
                         messageField.setText("");
-
                     }
                 });
                 JPanel messagePanel = new JPanel();
@@ -131,6 +130,15 @@ public class Acceuil extends JFrame {
                 chatPanel.add(disconnectButton, BorderLayout.SOUTH);
 
                 chatFrame.add(chatPanel);
+
+                // Ajoutez un gestionnaire d'événements de clic pour chaque utilisateur de la liste
+                connectedUsersList.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        String selectedUsername = connectedUsersList.getSelectedValue();
+                        onUsernameClick(selectedUsername);
+                    }
+                });
 
                 chatFrame.setVisible(true);
 
@@ -150,7 +158,7 @@ public class Acceuil extends JFrame {
         if (currentUser != null) {
             userController.UserLogout(currentUser);
             JOptionPane.showMessageDialog(this, "Déconnexion réussie.");
-            chatFrame.dispose();  // Fermez l'interface de chat
+            chatFrame.dispose();
         }
     }
 
@@ -161,5 +169,25 @@ public class Acceuil extends JFrame {
             connectedUsersListModel.addElement(user);
         }
     }
+
+    private void onUsernameClick(String clickedUsername) {
+        UserController userController = UserController.getInstance();
+        User clickedUser = userController.getUserByUsername(clickedUsername);
+
+        if (clickedUser != null) {
+            openChatInterface(clickedUser);
+        } else {
+            System.out.println("Erreur: Utilisateur non trouvé");
+        }
+    }
+
+    private void openChatInterface(User user) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                fenetreChat chatFrame = new fenetreChat(user.getUsername());
+                chatFrame.setVisible(true);
+            }
+        });
+    }
 }
-//yes
