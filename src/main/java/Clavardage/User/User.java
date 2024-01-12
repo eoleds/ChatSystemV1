@@ -1,4 +1,4 @@
-package Clavardage.Model;
+package Clavardage.User;
 
 //import Model.Packet.ContactDiscovery;
 

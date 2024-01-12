@@ -1,17 +1,19 @@
-package Clavardage.Controller;
+package Clavardage.Network;
 
-import Clavardage.Model.ThreadUser;
-import Clavardage.Model.User;
+import Clavardage.Controller.Controller;
+import Clavardage.Thread.ThreadController;
+import Clavardage.Thread.ThreadUser;
+import Clavardage.User.UserController;
+import Clavardage.User.User;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class NetworkController implements Controller{
+public class NetworkController implements Controller {
     @Override
     public void initController() {
-
     }
 
     private static final NetworkController instance = new NetworkController();
@@ -19,7 +21,7 @@ public class NetworkController implements Controller{
         return instance;
     }
 
-
+    //********* UDP Client **************************************************************************************//
     public void Connect(User user)
     {
         try {
@@ -34,8 +36,7 @@ public class NetworkController implements Controller{
             throw new RuntimeException(e);
         }
     }
-
-    public void disconnect(User user) {
+   public void disconnect(User user) {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
             int port = 8888;
@@ -50,7 +51,7 @@ public class NetworkController implements Controller{
         }
     }
 
-    //Methode pour ajouter les utilisateurs déjà connectés quand on se connecte grace à une réponse
+    //Methode pour ajouter les utilisateurs déjà connectés quand on se connecte grace leur réponse
     public void SendMessageConnexion(int port, InetAddress IPadresse, User meUser) throws IOException {
         int port1 = port;
         String message1 = "New_User_Response:" + meUser.getUsername();
@@ -59,7 +60,28 @@ public class NetworkController implements Controller{
         meUser.getSocket().send(packet1);
     }
 
-    //Methode à revoir
+
+    public void sendMessageUDP( String message) throws IOException {
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress addr= InetAddress.getByName("255.255.255.255");
+        int port = 8888;
+        byte[] buff = message.getBytes();
+        DatagramPacket packet = new DatagramPacket(buff, buff.length, addr, port);
+        socket.send(packet);
+        socket.close();
+    }
+
+    public void sendMessageTCP(User receiver, String message) {
+        ThreadController threadController = ThreadController.getInstance();
+        ThreadUser receiverThread = threadController.getUserThread(receiver);
+
+        if (receiverThread != null) {
+            receiverThread.sendMessageTCP(message);
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas connecté
+            System.out.println("[NetworkController]: Utilisateur non connecté");
+        }
+    }
     public void envoyerRequeteOuvertureThread(User utilisateurCible, int portCible, User utilisateurEmetteur) {
         try {
             String adresseCibleStr = utilisateurCible.getIp();
@@ -78,6 +100,27 @@ public class NetworkController implements Controller{
         }
     }
 
+    //*********** SERVEUR UDP**************//
+    public void ReceiveMessagesTCP() throws IOException {
+        UserController uc = UserController.getInstance();
+        int port = 9999; // Specify the port to listen on
+        boolean listening = true;
+        try {
+            DatagramSocket socket = new DatagramSocket(port);
+            DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
+
+            while (listening) {
+                socket.receive(receivePacket);
+
+
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void ReceiveMessagesUDP() throws IOException {
         UserController uc = UserController.getInstance();
         int port = 8888; // Specify the port to listen on
@@ -91,7 +134,7 @@ public class NetworkController implements Controller{
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 String senderAddress = receivePacket.getAddress().getHostAddress();
                 int senderPort = receivePacket.getPort();
-                System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
+                System.out.println("Greetings UDP, " + senderAddress + " : " + senderPort + " : " + message);
 
                 if (message.startsWith("New_User:")) {
                     String username = message.substring(9);
@@ -121,10 +164,9 @@ public class NetworkController implements Controller{
                 }
 
             }
-            //System.out.println(uc.getUsernames());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

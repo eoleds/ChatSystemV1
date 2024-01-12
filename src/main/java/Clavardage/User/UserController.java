@@ -1,10 +1,8 @@
-package Clavardage.Controller;
+package Clavardage.User;
 
-import Clavardage.Model.ThreadUser;
-import Clavardage.Model.User;
+import Clavardage.Controller.Controller;
+import Clavardage.Network.NetworkController;
 
-import java.io.IOException;
-import java.net.*;
 import java.util.*;
 
 public class UserController implements Controller {

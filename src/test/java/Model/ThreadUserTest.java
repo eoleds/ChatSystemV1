@@ -1,6 +1,6 @@
 package Model;
 
-import Clavardage.Model.ThreadUser;
+import Clavardage.Thread.ThreadUser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class ThreadUserTest {
     public void setUp() throws IOException {
         serverSocket = new ServerSocket(0); // Use an available port
         clientSocket = new Socket("localhost", serverSocket.getLocalPort());
-        threadUser = new ThreadUser(clientSocket);
+      //  threadUser = new ThreadUser(clientSocket);
     }
 
     @After

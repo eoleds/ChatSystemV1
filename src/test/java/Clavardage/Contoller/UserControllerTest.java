@@ -1,9 +1,7 @@
 package Clavardage.Contoller;
 
-import Clavardage.Controller.NetworkController;
-import Clavardage.Controller.ThreadController;
-import Clavardage.Controller.UserController;
-import Clavardage.Model.User;
+import Clavardage.User.UserController;
+import Clavardage.User.User;
 import org.junit.Before;
 import org.junit.Test;
 

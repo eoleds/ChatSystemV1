@@ -1,12 +1,14 @@
 package Clavardage.Interfaces;
 
-import Clavardage.Controller.UserController;
-import Clavardage.Model.User;
+import Clavardage.Network.NetworkController;
+import Clavardage.User.UserController;
+import Clavardage.User.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -16,12 +18,14 @@ public class Acceuil extends JFrame {
 
     private JTextField nameField;
     private UserController userController;
+    private NetworkController networkController;
     private JFrame chatFrame;
     private DefaultListModel<String> connectedUsersListModel;  // Ajout du modèle de données pour la liste des utilisateurs
 
-    public Acceuil(UserController userController) {
+    public Acceuil(UserController userController, NetworkController networkController) {
         super("Page d'accueil du Chat");
         this.userController = userController;
+        this.networkController=networkController;
 
         // Initialisation du modèle de données pour la liste des utilisateurs
         connectedUsersListModel = new DefaultListModel<>();
@@ -103,8 +107,13 @@ public class Acceuil extends JFrame {
                 sendButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //sendMessage(messageField.getText());
+                        try {
+                            networkController.sendMessageUDP(messageField.getText());
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         messageField.setText("");
+
                     }
                 });
                 JPanel messagePanel = new JPanel();

@@ -1,16 +1,15 @@
 package Clavardage.Contoller;
 
-import Clavardage.Controller.NetworkController;
-import Clavardage.Controller.ThreadController;
-import Clavardage.Controller.UserController;
-import Clavardage.Model.User;
+import Clavardage.Network.NetworkController;
+import Clavardage.Thread.ThreadController;
+import Clavardage.User.UserController;
+import Clavardage.User.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
 
@@ -74,7 +73,7 @@ import static org.junit.Assert.*;
             Thread.sleep(100);
 
             // Lancer la méthode startListening dans un autre thread
-            Thread listeningThread = new Thread(() -> threadController.startListening());
+            Thread listeningThread = new Thread(() -> threadController.startListeningUDP());
             listeningThread.start();
 
             // Attendre un court moment pour laisser le thread de démarrage écouter
