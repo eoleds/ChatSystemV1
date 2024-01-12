@@ -71,6 +71,8 @@ public class NetworkController implements Controller {
         socket.close();
     }
 
+
+
     public void sendMessageTCP(User receiver, String message) {
         ThreadController threadController = ThreadController.getInstance();
         ThreadUser receiverThread = threadController.getUserThread(receiver);
@@ -78,8 +80,8 @@ public class NetworkController implements Controller {
         if (receiverThread != null) {
             receiverThread.sendMessageTCP(message);
         } else {
-            // Gérer le cas où l'utilisateur n'est pas connecté
-            System.out.println("[NetworkController]: Utilisateur non connecté");
+            // Gérer le cas où le thread de l'utilisateur n'est pas trouvé
+            System.out.println("[NetworkController]: Thread de l'utilisateur non trouvé");
         }
     }
     public void envoyerRequeteOuvertureThread(User utilisateurCible, int portCible, User utilisateurEmetteur) {

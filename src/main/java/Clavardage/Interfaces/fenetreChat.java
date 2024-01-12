@@ -50,7 +50,7 @@ public class fenetreChat extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
         getContentPane().add(inputPanel, BorderLayout.SOUTH);
     }
-
+/////////////////////////////////////:MARCHE PAS/////////////////:::::::::
     private void sendMessage(String message) {
         User receiverUser = getUserFromUserClick(messageField.getText());
         if (receiverUser != null) {
@@ -87,7 +87,7 @@ public class fenetreChat extends JFrame {
             }
         }
 
-        // Retourner null ou gérez le cas où l'utilisateur n'est pas trouvé
+       System.out.println("pas trouvé");
         return null;
     }
 }
