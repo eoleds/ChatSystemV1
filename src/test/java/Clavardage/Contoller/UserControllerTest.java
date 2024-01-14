@@ -74,7 +74,7 @@ public class UserControllerTest {
 
     @Test
     public void login_user() throws Exception {
-        userController.UserLogin(SACHA_USER);
+        userController.userLogin(SACHA_USER);
         assertTrue(userController.getUsernames().contains(SACHA_USERNAME));
 
     }
@@ -82,7 +82,7 @@ public class UserControllerTest {
     @Test
     public void login_user_with_username_already_used_test() throws Exception {
         List<User> liste1 = userController.getUserList();
-        userController.UserLogin(SACHA_USER2);
+        userController.userLogin(SACHA_USER2);
         List<User> liste2 = userController.getUserList();
         assertEquals(liste2,liste1);
     }
@@ -90,11 +90,11 @@ public class UserControllerTest {
 
     @Test
     public void login_second_user() throws Exception {
-        userController.UserLogin(SACHA_USER);
+        userController.userLogin(SACHA_USER);
         List<User> liste1 = userController.getUserList();
         assertFalse(liste1.contains(SASHA_USER));
         assertTrue(liste1.contains(SACHA_USER));
-        userController.UserLogin(SASHA_USER);
+        userController.userLogin(SASHA_USER);
         List<User> liste2 = userController.getUserList();
         assertTrue(liste2.contains(SASHA_USER));
         assertTrue(liste2.contains(SACHA_USER));
@@ -102,9 +102,9 @@ public class UserControllerTest {
 
 @Test
     public void logout_user() throws Exception {
-        userController.UserLogin(SACHA_USER);
+        userController.userLogin(SACHA_USER);
         assertTrue(userController.getUsernames().contains(SACHA_USERNAME));
-        userController.UserLogout(SACHA_USER);
+        userController.userLogout(SACHA_USER);
         assertFalse(userController.getUsernames().contains(SACHA_USERNAME));
     }
 

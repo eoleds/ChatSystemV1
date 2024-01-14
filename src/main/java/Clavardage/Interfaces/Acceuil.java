@@ -54,6 +54,15 @@ public class Acceuil extends JFrame {
         setVisible(true);
     }
 
+    void displayContactList() {
+        System.out.println();
+        System.out.println("CONTACT LIST:");
+        for (User contact : userController.getUserList()) {
+            System.out.println("  " + contact);
+        }
+        System.out.println();
+    }
+
     private void onConnectButtonClick() {
         String userName = nameField.getText();
         if (!userName.isEmpty()) {
@@ -61,7 +70,7 @@ public class Acceuil extends JFrame {
                 String localIP = InetAddress.getLocalHost().getHostAddress();
                 User user = new User(userName, localIP);
 
-                if (userController.UserLogin(user)) {
+                if (userController.userLogin(user)) {
                     userController.setCurrentUser(user);
                     JOptionPane.showMessageDialog(this, "Bienvenue, " + userName + " ! Connexion réussie.");
                     openChatInterface();
@@ -156,7 +165,7 @@ public class Acceuil extends JFrame {
     private void onDisconnectButtonClick() {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
-            userController.UserLogout(currentUser);
+            userController.userLogout(currentUser);
             JOptionPane.showMessageDialog(this, "Déconnexion réussie.");
             chatFrame.dispose();
         }

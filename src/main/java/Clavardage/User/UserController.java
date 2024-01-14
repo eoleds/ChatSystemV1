@@ -8,7 +8,7 @@ import java.util.*;
 public class UserController implements Controller {
 
 
-    public static final userController instance = new UserController();
+    public static final UserController instance = new UserController();
     private List<User> userList = new ArrayList<>();
     private User currentUser;
 
