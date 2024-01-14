@@ -8,7 +8,7 @@ import java.util.*;
 public class UserController implements Controller {
 
 
-    public static final UserController instance = new UserController();
+    public static final userController instance = new UserController();
     private List<User> userList = new ArrayList<>();
     private User currentUser;
 
@@ -91,7 +91,7 @@ public class UserController implements Controller {
         System.out.println(stringJoiner.toString());
     }
 
-    public boolean UserLogin(User user) {
+    public boolean userLogin(User user) {
         if (!getUsernames().contains(user.getUsername())) {
             System.out.println("[UserController]: New connexion detected " + user.getUsername());
             addUser(user);
@@ -105,7 +105,7 @@ public class UserController implements Controller {
         }
     }
 
-    public void UserLogout(User user) {
+    public void userLogout(User user) {
    /*
         User userToRemove = null;
         for (User user1 : userList) {
