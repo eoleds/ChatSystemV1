@@ -74,6 +74,7 @@ public class Acceuil extends JFrame {
                     userController.setCurrentUser(user);
                     JOptionPane.showMessageDialog(this, "Bienvenue, " + userName + " ! Connexion réussie.");
                     openChatInterface();
+                    this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Nom d'utilisateur déjà utilisé.");
                 }

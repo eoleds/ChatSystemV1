@@ -44,5 +44,6 @@ public class ThreadUserTest {
         threadUser.close();
         assertTrue(clientSocket.isClosed());
 
+
     }
 }
