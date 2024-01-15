@@ -142,7 +142,7 @@ public class Acceuil extends JFrame {
 
                 chatFrame.add(chatPanel);
 
-                // Ajoutez un gestionnaire d'événements de clic pour chaque utilisateur de la liste
+
                 connectedUsersList.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {

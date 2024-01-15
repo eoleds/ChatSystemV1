@@ -14,10 +14,14 @@ public class fenetreChat extends JFrame {
     private JTextArea chatArea;
     private JTextField messageField;
 
+    private User correspondant;
+
     public fenetreChat(String username) {
+        UserController userController = UserController.getInstance();
+        this.correspondant= userController.getUserByUsername(username);
         setTitle("Chat - " + username);
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         chatArea = new JTextArea();
@@ -52,7 +56,7 @@ public class fenetreChat extends JFrame {
     }
 /////////////////////////////////////:MARCHE PAS/////////////////:::::::::
     private void sendMessage(String message) {
-        User receiverUser = getUserFromUserClick(messageField.getText());
+        User receiverUser = correspondant;
         if (receiverUser != null) {
             chatArea.append(receiverUser.getUsername() + ": " + message + "\n");
             NetworkController nc = NetworkController.getInstance();
@@ -78,16 +82,16 @@ public class fenetreChat extends JFrame {
         });
     }
 
-    private User getUserFromUserClick(String clickedUsername) {
+    User getUserFromUserClick(String clickedUsername) {
         UserController userController = UserController.getInstance();
-
+        System.out.println(clickedUsername);
         for (User user : userController.getUserList()) {
             if (user.getUsername().equals(clickedUsername)) {
                 return user;
             }
         }
 
-       System.out.println("pas trouvé");
+       System.out.println("pas trouvé :"+clickedUsername);
         return null;
     }
 }

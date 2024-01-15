@@ -26,7 +26,7 @@ public class NetworkController implements Controller {
     {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
+            int port = 6666;
             String message = "New_User:" + user.getUsername();
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
@@ -39,7 +39,7 @@ public class NetworkController implements Controller {
    public void disconnect(User user) {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
+            int port = 6666;
             String message = "User_Disconnected:" + user.getUsername();
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData, sendData.length, broadcastAddress, port);
@@ -64,7 +64,7 @@ public class NetworkController implements Controller {
     public void sendMessageUDP( String message) throws IOException {
         DatagramSocket socket = new DatagramSocket();
         InetAddress addr= InetAddress.getByName("255.255.255.255");
-        int port = 8888;
+        int port = 6666;
         byte[] buff = message.getBytes();
         DatagramPacket packet = new DatagramPacket(buff, buff.length, addr, port);
         socket.send(packet);
@@ -90,7 +90,7 @@ public class NetworkController implements Controller {
             InetAddress adresseCible = InetAddress.getByName(adresseCibleStr);
 
             String message = "Requete_Ouverture_Thread:" + utilisateurEmetteur.getUsername() + ":" + portCible;
-            int port = 8888;
+            int port = 6666;
 
             byte[] sendData = message.getBytes();
             DatagramPacket paquet = new DatagramPacket(sendData, sendData.length, adresseCible, port);
@@ -125,7 +125,7 @@ public class NetworkController implements Controller {
 
     public void ReceiveMessagesUDP() throws IOException {
         UserController uc = UserController.getInstance();
-        int port = 8888; // Specify the port to listen on
+        int port = 6666; // Specify the port to listen on
         boolean listening = true;
         try {
             DatagramSocket socket = new DatagramSocket(port);
@@ -148,7 +148,7 @@ public class NetworkController implements Controller {
                     }
                     System.out.println(uc.getUsernames());
                     NetworkController nc = NetworkController.getInstance();
-                    nc.SendMessageConnexion(8888, receivePacket.getAddress(), uc.getCurrentUser());
+                    nc.SendMessageConnexion(6666, receivePacket.getAddress(), uc.getCurrentUser());
                 } else if (message.startsWith("New_User_Response:")) {
                     String username = message.substring(18);
                     User user = new User(username, senderAddress);
