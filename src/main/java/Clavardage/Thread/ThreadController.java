@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class ThreadController implements Controller {
 
-    private Map<User, ThreadUser> discussion;
+    public Map<User, ThreadUser> discussion;
     private ExecutorService executorService;
     private static final ThreadController instance = new ThreadController();
 
@@ -61,6 +61,7 @@ public class ThreadController implements Controller {
     public void startListeningUDP() {
         UserController uc = UserController.getInstance();
         NetworkController nc = NetworkController.getInstance();
+
         new Thread(() -> {
             try {
                 //Thread initial UDP qui reçoit les nouvelles connexions
@@ -97,16 +98,17 @@ public class ThreadController implements Controller {
                 nc.ReceiveMessagesTCP();
                 while (listening) {
                     Socket mynewSocket = null;
+                    System.out.println("je suis dans la boucle");
                     try {
 
                         mynewSocket = serverSocket.accept();
-                        String senderAddress = mynewSocket.getInetAddress().getHostAddress();
+                        /*String senderAddress = mynewSocket.getInetAddress().getHostAddress();
                         User senderUser = uc.getUserByIP(senderAddress);
                         System.out.println("A new TCP connection identified : " + mynewSocket);
                         ThreadUser newThread = new ThreadUser(mynewSocket,uc.getCurrentUser(),senderUser);
                         System.out.println("Thread assigned");
                         discussion.put(senderUser, newThread);
-
+*/
                     } catch (Exception e) {
                         mynewSocket.close();
                         e.printStackTrace();

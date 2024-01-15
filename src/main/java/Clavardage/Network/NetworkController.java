@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
 
 public class NetworkController implements Controller {
     @Override
@@ -107,6 +108,7 @@ public class NetworkController implements Controller {
     //*********** SERVEUR UDP**************//
     public void ReceiveMessagesTCP() throws IOException {
         UserController uc = UserController.getInstance();
+        ThreadController tc = ThreadController.getInstance();
         int port = 9999;
         boolean listening = true;
         try {
@@ -115,7 +117,21 @@ public class NetworkController implements Controller {
 
             while (listening) {
                 socket.receive(receivePacket);
+                String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                String senderAddress = receivePacket.getAddress().getHostAddress();
+                int senderPort = receivePacket.getPort();
+
                 System.out.println("requete recue");
+                User senderUser = uc.getUserByIP(senderAddress);
+
+                Socket mynewSocket = new Socket();
+
+                System.out.println("A new TCP connection identified : " + mynewSocket);
+                ThreadUser newThread = new ThreadUser(mynewSocket,uc.getCurrentUser(),senderUser);
+                System.out.println("Thread assigned");
+
+                tc.discussion.put(senderUser, newThread);
+
 
             }
         } catch (IOException e) {
