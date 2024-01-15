@@ -24,6 +24,9 @@ public class fenetreChat extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        NetworkController networkController = NetworkController.getInstance();
+        networkController.envoyerRequeteOuvertureThread(correspondant,userController.getCurrentUser());
+
         chatArea = new JTextArea();
         chatArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(chatArea);

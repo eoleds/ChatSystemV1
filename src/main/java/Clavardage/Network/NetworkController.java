@@ -75,6 +75,8 @@ public class NetworkController implements Controller {
 
     public void sendMessageTCP(User receiver, String message) {
         ThreadController threadController = ThreadController.getInstance();
+
+
         ThreadUser receiverThread = threadController.getUserThread(receiver);
 
         if (receiverThread != null) {
@@ -84,13 +86,13 @@ public class NetworkController implements Controller {
             System.out.println("[NetworkController]: Thread de l'utilisateur non trouvé");
         }
     }
-    public void envoyerRequeteOuvertureThread(User utilisateurCible, int portCible, User utilisateurEmetteur) {
+    public void envoyerRequeteOuvertureThread(User utilisateurCible, User utilisateurEmetteur) {
         try {
             String adresseCibleStr = utilisateurCible.getIp();
             InetAddress adresseCible = InetAddress.getByName(adresseCibleStr);
+            int port = 9999;
+            String message = "Requete_Ouverture_Thread:" + utilisateurEmetteur.getUsername() + ":" + port;
 
-            String message = "Requete_Ouverture_Thread:" + utilisateurEmetteur.getUsername() + ":" + portCible;
-            int port = 6666;
 
             byte[] sendData = message.getBytes();
             DatagramPacket paquet = new DatagramPacket(sendData, sendData.length, adresseCible, port);
@@ -105,7 +107,7 @@ public class NetworkController implements Controller {
     //*********** SERVEUR UDP**************//
     public void ReceiveMessagesTCP() throws IOException {
         UserController uc = UserController.getInstance();
-        int port = 9999; // Specify the port to listen on
+        int port = 9999;
         boolean listening = true;
         try {
             DatagramSocket socket = new DatagramSocket(port);
@@ -113,9 +115,7 @@ public class NetworkController implements Controller {
 
             while (listening) {
                 socket.receive(receivePacket);
-
-
-
+                System.out.println("requete recue");
 
             }
         } catch (IOException e) {
@@ -125,7 +125,7 @@ public class NetworkController implements Controller {
 
     public void ReceiveMessagesUDP() throws IOException {
         UserController uc = UserController.getInstance();
-        int port = 6666; // Specify the port to listen on
+        int port = 6666;
         boolean listening = true;
         try {
             DatagramSocket socket = new DatagramSocket(port);

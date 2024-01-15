@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 
@@ -23,7 +24,7 @@ public class ThreadControllerTest {
     private User testUser;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         threadController = ThreadController.getInstance();
         threadController.initController();
         userController = UserController.getInstance();

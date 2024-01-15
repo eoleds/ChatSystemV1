@@ -94,7 +94,7 @@ public class ThreadController implements Controller {
             try {
                 //Thread initial TCP qui reçoit les nouvelles connexions
                 ServerSocket serverSocket = new ServerSocket(9999);
-
+                nc.ReceiveMessagesTCP();
                 while (listening) {
                     Socket mynewSocket = null;
                     try {
@@ -122,4 +122,3 @@ public class ThreadController implements Controller {
 
 
 }
-

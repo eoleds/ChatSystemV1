@@ -41,13 +41,6 @@ public class UserController implements Controller {
         return usernames;
     }
 
-    public List<UUID> getUserUUIDs() {
-        List<UUID> userUUIDs = new ArrayList<>();
-        for (User user : userList) {
-            userUUIDs.add(user.getUuid());
-        }
-        return userUUIDs;
-    }
 
     public User getUserByIP(String IP) {
         for (User user : userList) {

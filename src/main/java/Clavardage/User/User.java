@@ -11,21 +11,20 @@ public class User {
     String username;
     String IP;
 
-    private final UUID uuid;
+
     //ContactDiscovery ContactList = new ContactDiscovery();
     private DatagramSocket socket;
 
     public User(String username, String IP) throws SocketException {
         this.username = username;
         this.IP = IP;
-        this.socket = new DatagramSocket();
-        this.uuid = UUID.randomUUID();
+        this.socket = new DatagramSocket();    }
+
+    public User() {
+
     }
 
 
-    public UUID getUuid() {
-        return uuid;
-    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -42,4 +41,6 @@ public class User {
         return socket;
     }
 
+    public void setIp(String ip) { this.IP = ip;
+    }
 }
