@@ -23,7 +23,7 @@ public class NetworkController implements Controller {
     }
 
     //********* UDP Client **************************************************************************************//
-    public void Connect(User user)
+    public void connect(User user)
     {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
@@ -106,7 +106,7 @@ public class NetworkController implements Controller {
     }
 
     //*********** SERVEUR UDP**************//
-    public void ReceiveMessagesTCP() throws IOException {
+    public void receiveMessagesTCP() throws IOException {
         UserController uc = UserController.getInstance();
         ThreadController tc = ThreadController.getInstance();
         int port = 9999;
@@ -139,7 +139,7 @@ public class NetworkController implements Controller {
         }
     }
 
-    public void ReceiveMessagesUDP() throws IOException {
+    public void receiveMessagesUDP() throws IOException {
         UserController uc = UserController.getInstance();
         int port = 6666;
         boolean listening = true;

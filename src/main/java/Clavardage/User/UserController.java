@@ -90,7 +90,7 @@ public class UserController implements Controller {
             addUser(user);
             System.out.println(getUsernames());
           //  System.out.println(getUserUUIDs());
-            nc.Connect(user);
+            nc.connect(user);
             return true;
         } else {
             System.out.println("Username déjà utilisé");

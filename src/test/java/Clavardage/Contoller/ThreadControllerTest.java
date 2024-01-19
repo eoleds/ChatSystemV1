@@ -63,7 +63,7 @@ public class ThreadControllerTest {
         // Lancer la réception des messages UDP dans un thread séparé
         Thread udpThread = new Thread(() -> {
             try {
-                networkController.ReceiveMessagesUDP();
+                networkController.receiveMessagesUDP();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -81,7 +81,7 @@ public class ThreadControllerTest {
         Thread.sleep(100);
 
         // Effectuer des actions qui devraient générer des messages UDP (par exemple, se connecter)
-        networkController.Connect(testUser);
+        networkController.connect(testUser);
 
         // Attendre un court moment pour permettre la réception des messages
         Thread.sleep(100);

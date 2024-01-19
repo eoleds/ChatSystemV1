@@ -66,7 +66,7 @@ public class ThreadController implements Controller {
             try {
                 //Thread initial UDP qui reçoit les nouvelles connexions
                 ServerSocket serverSocket = new ServerSocket(8888);
-                nc.ReceiveMessagesUDP();
+                nc.receiveMessagesUDP();
 
                 while (listening) {
                     Socket mynewSocket = null;
@@ -95,7 +95,7 @@ public class ThreadController implements Controller {
             try {
                 //Thread initial TCP qui reçoit les nouvelles connexions
                 ServerSocket serverSocket = new ServerSocket(9999);
-                nc.ReceiveMessagesTCP();
+                nc.receiveMessagesTCP();
                 while (listening) {
                     Socket mynewSocket = null;
                     System.out.println("je suis dans la boucle");

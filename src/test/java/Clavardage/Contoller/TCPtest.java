@@ -5,14 +5,10 @@ import Clavardage.Network.NetworkController;
 import Clavardage.Thread.ThreadController;
 import Clavardage.Thread.ThreadUser;
 import Clavardage.User.User;
-import Clavardage.User.UserController;
 import org.junit.Test;
 
 
-import java.io.DataOutputStream;
 import java.net.SocketException;
-
-import static org.mockito.Mockito.*;
 
 public class TCPtest{
 
@@ -26,9 +22,9 @@ public class TCPtest{
 
             // Connexion des utilisateurs
             NetworkController nc = NetworkController.getInstance();
-            nc.Connect(user1);
-            nc.Connect(user2);
-            nc.Connect(user3);
+            nc.connect(user1);
+            nc.connect(user2);
+            nc.connect(user3);
 
             // Obtention des threads des utilisateurs
             ThreadController threadController = ThreadController.getInstance();

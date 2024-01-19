@@ -21,14 +21,14 @@ public class Acceuil extends JFrame {
     private UserController userController;
     private NetworkController networkController;
     private JFrame chatFrame;
-    private DefaultListModel<String> connectedUsersListModel;
+    private DefaultListModel<String> connectedUsersList;
 
     public Acceuil(UserController userController, NetworkController networkController) {
         super("Page d'accueil du Chat");
         this.userController = userController;
         this.networkController = networkController;
 
-        connectedUsersListModel = new DefaultListModel<>();
+        connectedUsersList = new DefaultListModel<>();
 
         JLabel nameLabel = new JLabel("Entrez votre prénom :");
         nameField = new JTextField(20);
@@ -104,7 +104,7 @@ public class Acceuil extends JFrame {
                 });
 
                 JPanel chatPanel = new JPanel(new BorderLayout());
-                JList<String> connectedUsersList = new JList<>(connectedUsersListModel);
+                JList<String> connectedUsersList = new JList<>(Acceuil.this.connectedUsersList);
                 JScrollPane connectedUsersScrollPane = new JScrollPane(connectedUsersList);
                 chatPanel.add(connectedUsersScrollPane, BorderLayout.WEST);
 
@@ -175,9 +175,9 @@ public class Acceuil extends JFrame {
 
     private void updateConnectedUsersList(JList<String> connectedUsersList) {
         List<String> connectedUsers = userController.getUsernames();
-        connectedUsersListModel.removeAllElements();
+        this.connectedUsersList.removeAllElements();
         for (String user : connectedUsers) {
-            connectedUsersListModel.addElement(user);
+            this.connectedUsersList.addElement(user);
         }
     }
 
