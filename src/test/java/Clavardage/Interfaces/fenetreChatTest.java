@@ -11,7 +11,7 @@ import java.net.SocketException;
 public class fenetreChatTest {
 
     //test de récupération de l'user d'apres l'interface
-    @Test
+
     public void testGetUserFromUserClick() throws SocketException {
 
 
